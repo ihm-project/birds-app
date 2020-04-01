@@ -1,6 +1,5 @@
 package com.example.birdsapp.map.fragment;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,37 +15,50 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.ItemizedIconOverlay;
-import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
-import org.osmdroid.views.overlay.OverlayItem;
 
-import java.util.ArrayList;
 
 public class MapFragment extends Fragment {
+
     IMapController mapController;
     private MapView map;
+
+    public MapFragment(){
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Configuration.getInstance().load(   getContext(),
+                PreferenceManager.getDefaultSharedPreferences(getContext()) );
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView=inflater.inflate(R.layout.fragment_map,container,false);
-        this.map=initMap();
+        this.map=initMap(rootView);
         return rootView;
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        map.onPause();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        map.onResume();
     }
 
     /**
      * initialise la map
      * @return map initialisée
      */
-    private MapView initMap(){
+    private MapView initMap(View rootView){
         MapView map;
-        Configuration.getInstance().load(getActivity().getApplicationContext(), PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()));
-        getActivity().setContentView(R.layout.fragment_map);
-        map= getActivity().findViewById(R.id.display_map);
+        map= rootView.findViewById(R.id.display_map);
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setBuiltInZoomControls(true);
 

@@ -46,7 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
             frag.setArguments(args);
 
             FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.frame_profile_description,frag);
+            transaction.replace(R.id.frame_profile_history,frag);
             transaction.addToBackStack(null);
             transaction.commit();
         }

@@ -24,6 +24,7 @@
         <activity android:name=".MainActivity">
 
         </activity>
+        <activity android:name=".profile.activity.ProfileActivity"></activity>
     </application>
 
 </manifest>

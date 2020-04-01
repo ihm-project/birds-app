@@ -19,52 +19,52 @@
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/nomEspece"
         android:layout_width="96dp"
         android:layout_height="22dp"
         android:layout_marginBottom="10dp"
         android:text="nomEspece"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintBottom_toTopOf="@+id/nomAuteur"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonMap" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/nomAuteur"
         android:layout_width="105dp"
         android:layout_height="21dp"
         android:layout_marginBottom="14dp"
         android:text="nomAuteur"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintBottom_toTopOf="@+id/dateDePublication"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/nomEspece" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/dateDePublication"
         android:layout_width="107dp"
         android:layout_height="55dp"
         android:layout_marginBottom="17dp"
         android:text="dateDePublication"
-        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintBottom_toTopOf="@+id/lieuObservation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/nomAuteur" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/lieuObservation"
         android:layout_width="106dp"
         android:layout_height="23dp"
         android:layout_marginBottom="8dp"
         android:text="lieuObservation"
-        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintBottom_toTopOf="@+id/descriptionPost"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/dateDePublication" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/descriptionPost"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="48dp"
@@ -75,7 +75,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/lieuObservation" />
 
     <ImageButton
         android:id="@+id/buttonMap"
@@ -84,7 +84,7 @@
         android:layout_marginTop="105dp"
         android:layout_marginEnd="60dp"
         android:layout_marginBottom="52dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintBottom_toTopOf="@+id/nomEspece"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/image_bird"
         app:layout_constraintTop_toTopOf="parent"
@@ -107,7 +107,7 @@
         android:layout_marginStart="108dp"
         android:layout_marginTop="48dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionPost"
         app:srcCompat="@android:drawable/ic_menu_delete" />
 
     <ImageButton

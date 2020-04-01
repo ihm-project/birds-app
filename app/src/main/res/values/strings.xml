@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BirdsApp</string>
+    <string name="description">DESCRIPTION</string>
+    <string name="historique">HISTORIQUE</string>
 </resources>

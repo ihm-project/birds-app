@@ -50,30 +50,10 @@ public class MapFragment extends Fragment {
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setBuiltInZoomControls(true);
 
-        GeoPoint startPoint = new GeoPoint(43.1167,5.9333);
+        GeoPoint startPoint = new GeoPoint(43.61592102050781,7.072372913360596);
         mapController = map.getController();
         mapController.setZoom(18.0);
         mapController.setCenter(startPoint);
-
-        ArrayList<OverlayItem> items = new ArrayList<>();
-        OverlayItem home = new OverlayItem(" Clement's home", "toulon",new GeoPoint(43.200,5.9333) );
-        Drawable m = home.getMarker(0);
-        items.add(home);
-        items.add(new OverlayItem("Resto", "le barathin", new GeoPoint(43.1170, 5.9335)));
-        ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(getActivity().getApplicationContext(),
-                items, new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-            @Override
-            public boolean onItemSingleTapUp(int index, OverlayItem item) {
-                return true;
-            }
-
-            @Override
-            public boolean onItemLongPress(int index, OverlayItem item) {
-                return false;
-            }
-        });
-        mOverlay.setFocusItemsOnTap(true);
-        map.getOverlays().add(mOverlay);
 
         return map;
     }

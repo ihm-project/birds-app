@@ -21,10 +21,8 @@
         </intent-filter>
         </activity>
         <activity android:name=".wiki.activity.WikiActivity"/>
-        <activity android:name=".MainActivity">
-
-        </activity>
-        <activity android:name=".profile.activity.ProfileActivity"></activity>
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".profile.activity.ProfileActivity"/>
     </application>
 
 </manifest>

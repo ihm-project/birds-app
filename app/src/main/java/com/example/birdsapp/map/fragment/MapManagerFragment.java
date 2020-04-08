@@ -1,32 +1,33 @@
 package com.example.birdsapp.map.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
-import androidx.preference.PreferenceManager;
 
 import com.example.birdsapp.R;
+import com.example.birdsapp.map.activity.OSMActivity;
 
-import org.osmdroid.config.Configuration;
 
-public class List_MapFragment extends Fragment {
-
-    public List_MapFragment(){
-
-    }
+public class MapManagerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Configuration.getInstance().load(   getContext(),
-                PreferenceManager.getDefaultSharedPreferences(getContext()) );
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView=inflater.inflate(R.layout.fragment_list_map,container,false);
+        rootView.findViewById(R.id.buttonStartMenu).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent( getContext(), OSMActivity.class);
+                startActivity( intent );
+            }
+        });
         return rootView;
     }
 }

@@ -18,7 +18,7 @@
         android:layout_height="10dp"
         android:layout_weight="10"
         android:background="@color/colorPrimaryDark"
-        android:id="@+id/frame_menu_list_map"/>
+        android:id="@+id/frame_manager_map"/>
 
     <FrameLayout
         android:layout_width="match_parent"

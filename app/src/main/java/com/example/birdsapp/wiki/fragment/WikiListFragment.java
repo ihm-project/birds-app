@@ -10,8 +10,8 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 
 import com.example.birdsapp.R;
-
-import java.util.ArrayList;
+import com.example.birdsapp.data.BirdsList;
+import com.example.birdsapp.wiki.WikiArrayAdapter;
 
 public class WikiListFragment extends Fragment {
 
@@ -20,10 +20,7 @@ public class WikiListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savecInstancesStates) {
         View rootView = inflater.inflate(R.layout.fragment_wiki_list, container, false);
-        ArrayList arrayList = new ArrayList();
-        for (int i = 1 ; i <= 20; i++)
-            arrayList.add(i);
-        ArrayAdapter adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, arrayList);
+        ArrayAdapter adapter = new WikiArrayAdapter(getContext(), BirdsList.getBirds());
         ((ListView) rootView.findViewById(R.id.wiki_list)).setAdapter(adapter);
         return rootView;
     }

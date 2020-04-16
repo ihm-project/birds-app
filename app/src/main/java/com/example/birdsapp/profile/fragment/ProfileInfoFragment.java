@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.birdsapp.R;
+import com.example.birdsapp.map.activity.MapActivity;
+import com.example.birdsapp.profile.activity.ProfileModificator;
 
 import static com.example.birdsapp.profile.Profile.*;
 
@@ -41,6 +43,14 @@ public class ProfileInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView= inflater.inflate(R.layout.fragment_profile_description,container,false);
 
+        rootView.findViewById(R.id.modif_profile_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentMap = new Intent(getContext(), ProfileModificator.class);
+                startActivity(intentMap);
+            }
+        });
+
         TextView nameView = (TextView) rootView.findViewById(R.id.profileNamesTextView);
         nameView.setText(names);
 
@@ -49,7 +59,7 @@ public class ProfileInfoFragment extends Fragment {
 
 
         TextView countryView = (TextView) rootView.findViewById(R.id.profileCountryTextView);
-        countryView.setText(descript);
+        countryView.setText(country);
 
 
         TextView commentView = (TextView) rootView.findViewById(R.id.profileDescriptionSlotTextView);

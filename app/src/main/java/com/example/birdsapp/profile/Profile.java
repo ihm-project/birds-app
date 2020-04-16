@@ -1,14 +1,16 @@
 package com.example.birdsapp.profile;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.birdsapp.R;
+import com.google.gson.Gson;
 
 import java.io.*;
 
 public class Profile {
-    private final String SAVE_LINK = "ownerProfile.txt";
+    public static final String SAVE_LINK = "ownerProfile";
 
     public final static String KEY = "profile";
 
@@ -48,21 +50,24 @@ public class Profile {
         return country;
     }
 
-    public void save(String fileName, Context context) throws IOException {
-        FileOutputStream fos =  context.openFileOutput(fileName, Context.MODE_PRIVATE);
-        ObjectOutputStream os = new ObjectOutputStream(fos);
-        os.writeObject(this);
-        os.close();
-        fos.close();
+    public void save(SharedPreferences  mPrefs) {
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(this);
+        prefsEditor.putString(KEY, json);
+        prefsEditor.commit();
+        System.out.println("SAVED");
+        System.out.println(json);
+        System.out.println(mPrefs.getString(KEY, ""));
     }
 
-    public static Profile load(String fileName, Context context) throws IOException, ClassNotFoundException {
-        FileInputStream fis = context.openFileInput(fileName);
-        ObjectInputStream is = new ObjectInputStream(fis);
-        Profile profile = (Profile) is.readObject();
-        is.close();
-        fis.close();
-        return profile;
+    public static Profile load(SharedPreferences  mPrefs) {
+        Gson gson = new Gson();
+        String json = mPrefs.getString(KEY, "");
+        System.out.println("LOADED");
+        System.out.println(mPrefs);
+        Profile saved = gson.fromJson(json, Profile.class);
+        return (saved==null) ? new Profile() : saved;
     }
 
     public Bundle getBundle(){
@@ -73,5 +78,25 @@ public class Profile {
         result.putString(DESC_KEY,descript);
         result.putInt(IMG_KEY,image);
         return result;
+    }
+
+    public void setNames(String names) {
+        this.names = names;
+    }
+
+    public void setDescript(String descript) {
+        this.descript = descript;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

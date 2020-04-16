@@ -1,5 +1,6 @@
 package com.example.birdsapp.profile.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -22,7 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        Profile profile = new Profile();
+        Profile profile = Profile.load(getSharedPreferences(Profile.SAVE_LINK, Context.MODE_PRIVATE));
 
         ProfileInfoFragment detailFragment=(ProfileInfoFragment) getSupportFragmentManager().findFragmentById(R.id.frame_profile_description);
         if(detailFragment==null){

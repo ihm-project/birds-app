@@ -23,6 +23,7 @@
         <activity android:name=".wiki.activity.WikiActivity"/>
         <activity android:name=".MainActivity"/>
         <activity android:name=".profile.activity.ProfileActivity"/>
+        <activity android:name=".profile.activity.ProfileModificator"/>
     </application>
 
 </manifest>

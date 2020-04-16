@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.birdsapp.R;
+import com.example.birdsapp.navigationBar.NavigationBar;
 import com.example.birdsapp.profile.Profile;
 import com.example.birdsapp.profile.fragment.ProfileHistoryFragment;
 import com.example.birdsapp.profile.fragment.ProfileInfoFragment;
@@ -47,6 +48,20 @@ public class ProfileActivity extends AppCompatActivity {
 
             FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.frame_profile_history,frag);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
+
+        ProfileInfoFragment navigatorFragment=(ProfileInfoFragment) getSupportFragmentManager().findFragmentById(R.id.frame_profile_history);
+        if(navigatorFragment==null){
+            Fragment frag = new NavigationBar();
+            Bundle args= new Bundle();
+//            args.putAll(profile.getBundle());
+
+            frag.setArguments(args);
+
+            FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.frame_profile_navigator,frag);
             transaction.addToBackStack(null);
             transaction.commit();
         }

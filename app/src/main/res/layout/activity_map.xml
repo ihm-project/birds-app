@@ -9,22 +9,22 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_weight="150"
+        android:layout_weight="100"
         android:id="@+id/frame_map"
-        android:background="@color/colorPrimary"/>
+        />
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_weight="10"
-        android:background="@color/colorPrimaryDark"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:id="@+id/frame_manager_map"/>
 
     <FrameLayout
+
         android:id="@+id/navbar"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@color/colorAccent" />
+        />
 
 
 </LinearLayout>

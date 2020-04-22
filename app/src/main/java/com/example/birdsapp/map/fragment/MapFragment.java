@@ -2,6 +2,7 @@ package com.example.birdsapp.map.fragment;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -19,6 +20,9 @@ import androidx.preference.PreferenceManager;
 
 import com.example.birdsapp.R;
 import com.example.birdsapp.map.IGPSActivity;
+import com.example.birdsapp.models.Post;
+import com.example.birdsapp.post.activity.PostActivity;
+import com.example.birdsapp.profile.activity.ProfileModificator;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -52,7 +56,13 @@ public class MapFragment extends Fragment implements IGPSActivity {
         View rootView=inflater.inflate(R.layout.fragment_map,container,false);
         this.map=initMap(rootView);
         boolean permissionGranted  = ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED;
-
+        rootView.findViewById(R.id.btnAddPost).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentPostActivity = new Intent(getActivity().getApplicationContext(), PostActivity.class);
+                startActivity(intentPostActivity);
+            }
+        });
         if(permissionGranted){
             rootView.findViewById(R.id.positionButton).setOnClickListener(new View.OnClickListener() {
                 @Override

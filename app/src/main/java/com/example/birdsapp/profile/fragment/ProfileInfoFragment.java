@@ -1,6 +1,9 @@
 package com.example.birdsapp.profile.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +18,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.birdsapp.R;
 import com.example.birdsapp.map.activity.MapActivity;
+import com.example.birdsapp.profile.Profile;
 import com.example.birdsapp.profile.activity.ProfileModificator;
+import com.example.birdsapp.tools.CameraTool;
+import com.google.gson.Gson;
+
+import java.io.IOException;
 
 import static com.example.birdsapp.profile.Profile.*;
 
@@ -25,7 +33,9 @@ public class ProfileInfoFragment extends Fragment {
     private String title;
     private String country;
     private String descript;
-    private int image;
+    private Bitmap image;
+
+    private ImageView imageView;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -33,7 +43,11 @@ public class ProfileInfoFragment extends Fragment {
         if(getArguments()!=null){
             names=getArguments().getString(NAMES_KEY);
             descript=getArguments().getString(DESC_KEY);
-            image=getArguments().getInt(IMG_KEY);
+            String imgJson = getArguments().getString(IMG_KEY);
+            System.out.println(imgJson);
+            if (imgJson == null || imgJson.equals(NO_IMG))
+                image = BitmapFactory.decodeResource(getResources(),R.drawable.person);
+            else image= Profile.loadImg();
             country=getArguments().getString(COUNTRY_KEY);
             title=getArguments().getString(TITLE_KEY);
         }
@@ -51,6 +65,13 @@ public class ProfileInfoFragment extends Fragment {
             }
         });
 
+        rootView.findViewById(R.id.profileImgChangeButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CameraTool.use_camera(getContext(),getActivity());
+            }
+        });
+
         TextView nameView = (TextView) rootView.findViewById(R.id.profileNamesTextView);
         nameView.setText(names);
 
@@ -65,8 +86,22 @@ public class ProfileInfoFragment extends Fragment {
         TextView commentView = (TextView) rootView.findViewById(R.id.profileDescriptionSlotTextView);
         commentView.setText(descript);
 
-        ImageView imageView = rootView.findViewById(R.id.profileAvatarImg);
-        imageView.setImageResource(image);
+        imageView = rootView.findViewById(R.id.profileAvatarImg);
+        imageView.setImageBitmap(image);
         return rootView;
+    }
+
+    public void setAvatar(Bitmap data) {
+        imageView.setImageBitmap(data);
+        Profile p = Profile.load(getActivity().getSharedPreferences(Profile.SAVE_LINK, Context.MODE_PRIVATE));
+        try {
+            Profile.saveImg(data);
+            p.setImage(SAVE_LINK);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("error when img saved");
+            p.setImage(NO_IMG);
+        }
+        p.save(getActivity().getSharedPreferences(Profile.SAVE_LINK, Context.MODE_PRIVATE));
     }
 }

@@ -25,7 +25,6 @@ public class NavigationBar extends Fragment implements View.OnClickListener {
         rootView.findViewById(R.id.profile_button).setOnClickListener(this);
         rootView.findViewById(R.id.map_button).setOnClickListener(this);
         rootView.findViewById(R.id.wiki_button).setOnClickListener(this);
-
         return rootView;
     }
 

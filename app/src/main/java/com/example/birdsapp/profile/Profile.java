@@ -2,7 +2,10 @@ package com.example.birdsapp.profile;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 
 import com.example.birdsapp.R;
 import com.google.gson.Gson;
@@ -19,19 +22,24 @@ public class Profile {
     public final static String COUNTRY_KEY = "country";
     public final static String DESC_KEY = "description";
     public final static String IMG_KEY = "avatar";
+    public final static String NO_IMG = "noImg";
 
     private String names;
     private String title;
     private String country;
     private String descript;
-    private int image;
+    private String image;
 
     public Profile(){
         names = "defaultName";
         title = "defaultTitle";
         country = "defaultCountry";
         descript = "defaultDescription";
-        image = R.mipmap.ic_launcher;
+        image = "noImg";
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public String getNames() {
@@ -61,11 +69,30 @@ public class Profile {
         System.out.println(mPrefs.getString(KEY, ""));
     }
 
+    public static void saveImg(Bitmap bmp) throws IOException {
+        String file_path = Environment.getExternalStorageDirectory().getAbsolutePath();
+        File dir = new File(file_path);
+        if(!dir.exists())
+            dir.mkdirs();
+        File file = new File(dir, SAVE_LINK + ".jpg");
+        FileOutputStream fOut = new FileOutputStream(file);
+
+        bmp.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+        fOut.flush();
+        fOut.close();
+    }
+
+    public static Bitmap loadImg(){
+        String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                "/"+SAVE_LINK + ".jpg";
+        return BitmapFactory.decodeFile(file_path);
+    }
+
     public static Profile load(SharedPreferences  mPrefs) {
         Gson gson = new Gson();
         String json = mPrefs.getString(KEY, "");
         System.out.println("LOADED");
-        System.out.println(mPrefs);
+        System.out.println(json);
         Profile saved = gson.fromJson(json, Profile.class);
         return (saved==null) ? new Profile() : saved;
     }
@@ -76,7 +103,7 @@ public class Profile {
         result.putString(COUNTRY_KEY,country);
         result.putString(TITLE_KEY,title);
         result.putString(DESC_KEY,descript);
-        result.putInt(IMG_KEY,image);
+        result.putString(IMG_KEY,image);
         return result;
     }
 
@@ -88,7 +115,7 @@ public class Profile {
         this.descript = descript;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

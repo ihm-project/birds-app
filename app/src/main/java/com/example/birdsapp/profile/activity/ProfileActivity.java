@@ -1,8 +1,12 @@
 package com.example.birdsapp.profile.activity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -13,58 +17,75 @@ import com.example.birdsapp.navigationBar.NavigationBar;
 import com.example.birdsapp.profile.Profile;
 import com.example.birdsapp.profile.fragment.ProfileHistoryFragment;
 import com.example.birdsapp.profile.fragment.ProfileInfoFragment;
+import com.example.birdsapp.tools.CameraTool;
 
 import static com.example.birdsapp.profile.Profile.*;
 
 public class ProfileActivity extends AppCompatActivity {
+    private ProfileHistoryFragment historyFragment;
+    private ProfileInfoFragment detailFragment;
+    private NavigationBar navigatorFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
 
         Profile profile = Profile.load(getSharedPreferences(Profile.SAVE_LINK, Context.MODE_PRIVATE));
 
-        ProfileInfoFragment detailFragment=(ProfileInfoFragment) getSupportFragmentManager().findFragmentById(R.id.frame_profile_description);
+        detailFragment=(ProfileInfoFragment) getSupportFragmentManager().findFragmentById(R.id.frame_profile_description);
         if(detailFragment==null){
-            Fragment frag = new ProfileInfoFragment();
+            detailFragment = new ProfileInfoFragment();
             Bundle args= new Bundle();
             args.putAll(profile.getBundle());
 
-            frag.setArguments(args);
+            detailFragment.setArguments(args);
 
-            FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.frame_profile_description,frag);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            transaction.replace(R.id.frame_profile_description,detailFragment);
         }
 
-        ProfileInfoFragment historyFragment=(ProfileInfoFragment) getSupportFragmentManager().findFragmentById(R.id.frame_profile_history);
+        historyFragment=(ProfileHistoryFragment) getSupportFragmentManager().findFragmentById(R.id.frame_profile_history);
         if(historyFragment==null){
-            Fragment frag = new ProfileHistoryFragment();
+            historyFragment = new ProfileHistoryFragment();
             Bundle args= new Bundle();
 //            args.putAll(profile.getBundle());
 
-            frag.setArguments(args);
+            historyFragment.setArguments(args);
 
-            FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.frame_profile_history,frag);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            transaction.replace(R.id.frame_profile_history,historyFragment);
         }
 
-        ProfileInfoFragment navigatorFragment=(ProfileInfoFragment) getSupportFragmentManager().findFragmentById(R.id.frame_profile_history);
+        navigatorFragment=(NavigationBar) getSupportFragmentManager().findFragmentById(R.id.frame_profile_history);
         if(navigatorFragment==null){
-            Fragment frag = new NavigationBar();
+            NavigationBar navigatorFragment = new NavigationBar();
             Bundle args= new Bundle();
 //            args.putAll(profile.getBundle());
 
-            frag.setArguments(args);
+            navigatorFragment.setArguments(args);
 
-            FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.frame_profile_navigator,frag);
-            transaction.addToBackStack(null);
-            transaction.commit();
+             transaction.replace(R.id.frame_profile_navigator,navigatorFragment);
+        }
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case CameraTool
+                    .REQUEST_CAMERA:
+                if( grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    CameraTool.takePicture(this);
+                } break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == CameraTool.REQUEST_CAMERA){
+            this.detailFragment.setAvatar((Bitmap)data.getExtras().get("data"));
         }
     }
 }

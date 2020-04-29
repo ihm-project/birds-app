@@ -20,6 +20,13 @@ public class PostListTool {
         return saved;
     }
 
+    public static List<Post> loadOwnerList(SharedPreferences mPrefs){
+        Gson gson = new Gson();
+        String json = mPrefs.getString(KEY, "");
+        List<Post> saved = new LinkedList<>(Arrays.asList(gson.fromJson(json, Post[].class)));
+        return saved;
+    }
+
     public static void save(List<Post> posts, SharedPreferences mPrefs){
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();

@@ -17,6 +17,9 @@ public class PostList {
     public static void initPostList(){
         posts = new ArrayList<>();
         posts.add(new Post(Species.MESANGE,new Profile(),new Date(),new GeoPoint(0.1,0),"post test",R.mipmap.mesange));
+        posts.add(new Post(Species.MESANGE,new Profile(),new Date(),new GeoPoint(0.1,0),"post test",R.mipmap.mesange));
+        posts.add(new Post(Species.MESANGE,new Profile(),new Date(),new GeoPoint(0.1,0),"post test",R.mipmap.mesange));
+        posts.add(new Post(Species.MESANGE,new Profile(),new Date(),new GeoPoint(0.1,0),"post test",R.mipmap.mesange));
        posts.add((new Post()));
     }
 

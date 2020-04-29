@@ -56,7 +56,7 @@ public class ProfileActivity extends AppCompatActivity {
             transaction.replace(R.id.frame_profile_history,historyFragment);
         }
 
-        navigatorFragment=(NavigationBar) getSupportFragmentManager().findFragmentById(R.id.frame_profile_history);
+        navigatorFragment=(NavigationBar) getSupportFragmentManager().findFragmentById(R.id.frame_profile_navigator);
         if(navigatorFragment==null){
             NavigationBar navigatorFragment = new NavigationBar();
             Bundle args= new Bundle();

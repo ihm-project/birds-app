@@ -3,6 +3,7 @@ package com.example.birdsapp.map.activity;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,7 +39,6 @@ public class MapActivity extends AppCompatActivity {
                 if(grantedResults.length>0 && grantedResults[0]== PackageManager.PERMISSION_GRANTED){
                     Toast toast = Toast.makeText(getApplicationContext(),"location activated",Toast.LENGTH_LONG);
                     toast.show();
-                    getSupportFragmentManager().beginTransaction(). replace(R.id.frame_map, new MapFragment()) .commit();
 
                 }
                 break;

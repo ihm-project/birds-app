@@ -83,7 +83,6 @@ public class MapFragment extends Fragment implements IGPSActivity {
             this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(getContext()),map);
             this.mLocationOverlay.enableMyLocation();
             this.mLocationOverlay.enableFollowLocation();
-            mLocationOverlay.set;
 
             map.getOverlays().add(this.mLocationOverlay);
             currentPosition=mLocationOverlay.getMyLocation();

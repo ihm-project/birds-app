@@ -21,9 +21,11 @@ import com.example.birdsapp.map.activity.MapActivity;
 import com.example.birdsapp.profile.Profile;
 import com.example.birdsapp.profile.activity.ProfileModificator;
 import com.example.birdsapp.tools.CameraTool;
+import com.example.birdsapp.tools.ToDoAfter;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import static com.example.birdsapp.profile.Profile.*;
 
@@ -43,11 +45,13 @@ public class ProfileInfoFragment extends Fragment {
         if(getArguments()!=null){
             names=getArguments().getString(NAMES_KEY);
             descript=getArguments().getString(DESC_KEY);
-            String imgJson = getArguments().getString(IMG_KEY);
-            System.out.println(imgJson);
-            if (imgJson == null || imgJson.equals(NO_IMG))
-                image = BitmapFactory.decodeResource(getResources(),R.drawable.person);
-            else image= Profile.loadImg();
+            image = BitmapFactory.decodeResource(getResources(),R.drawable.person);
+            CameraTool.read_memory(getContext(), getActivity(), new ToDoAfter() {
+                @Override
+                public void toDo() {
+                    loadImg();
+                }
+            });
             country=getArguments().getString(COUNTRY_KEY);
             title=getArguments().getString(TITLE_KEY);
         }
@@ -92,8 +96,9 @@ public class ProfileInfoFragment extends Fragment {
     }
 
     public void setAvatar(Bitmap data) {
+        image = data;
         imageView.setImageBitmap(data);
-        Profile p = Profile.load(getActivity().getSharedPreferences(Profile.SAVE_LINK, Context.MODE_PRIVATE));
+        final Profile p = Profile.load(Objects.requireNonNull(getActivity()).getSharedPreferences(Profile.SAVE_LINK, Context.MODE_PRIVATE));
         try {
             Profile.saveImg(data);
             p.setImage(SAVE_LINK);
@@ -102,6 +107,24 @@ public class ProfileInfoFragment extends Fragment {
             System.out.println("error when img saved");
             p.setImage(NO_IMG);
         }
-        p.save(getActivity().getSharedPreferences(Profile.SAVE_LINK, Context.MODE_PRIVATE));
+        saveImg();
+    }
+
+    public void saveImg(){
+        CameraTool.write_memory(getContext(), getActivity(), new ToDoAfter() {
+            @Override
+            public void toDo() {
+                 try {
+                     Profile.saveImg(image);
+                 }
+                 catch (IOException e) {
+                     e.printStackTrace();
+                 }
+            }
+        });
+    }
+
+    public void loadImg(){
+        image= Profile.loadImg();
     }
 }

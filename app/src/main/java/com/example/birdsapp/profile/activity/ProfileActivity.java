@@ -73,10 +73,17 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode){
-            case CameraTool
-                    .REQUEST_CAMERA:
+            case CameraTool.REQUEST_CAMERA:
                 if( grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     CameraTool.takePicture(this);
+                } break;
+            case CameraTool.REQUEST_WRITE_EXT_MEM:
+                if( grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    this.detailFragment.saveImg();
+                } break;
+            case CameraTool.REQUEST_READ_EXT_MEM:
+                if( grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    this.detailFragment.loadImg();
                 } break;
         }
     }

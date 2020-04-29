@@ -55,7 +55,8 @@ public class MapFragment extends Fragment implements IGPSActivity {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView=inflater.inflate(R.layout.fragment_map,container,false);
         this.map=initMap(rootView);
-        boolean permissionGranted  = ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED;
+        boolean permissionGranted2  = ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)== PackageManager.PERMISSION_GRANTED;
+        boolean permissionGranted1  = ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS)== PackageManager.PERMISSION_GRANTED;
         rootView.findViewById(R.id.btnAddPost).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,20 +64,22 @@ public class MapFragment extends Fragment implements IGPSActivity {
                 startActivity(intentPostActivity);
             }
         });
-        if(permissionGranted){
+        if(permissionGranted1&&permissionGranted2){
             rootView.findViewById(R.id.positionButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                    moveCamera();
+
                 }
             });
+
             LocationListener listener = initListener();
             LocationManager locationManager = (LocationManager) (getActivity().getSystemService(Context.LOCATION_SERVICE));
             locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 5000, 1, listener);
+
         }
         else {
-
-            ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.ACCESS_COARSE_LOCATION},REQUEST_CODE);
+            ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},REQUEST_CODE);
         }
         return rootView;
     }
@@ -119,10 +122,9 @@ public class MapFragment extends Fragment implements IGPSActivity {
             public void onLocationChanged(Location location) {
                 currentLocation=location;
                 currentPosition = new GeoPoint(currentLocation);
-                MyLocationNewOverlay myLocationoverlay = new MyLocationNewOverlay( map);
-                myLocationoverlay.enableMyLocation(); // not on by default
-                map.getOverlays().add(myLocationoverlay);
-                moveCamera();
+
+
+
             }
 
             @Override
@@ -146,7 +148,6 @@ public class MapFragment extends Fragment implements IGPSActivity {
     @Override
     public void moveCamera() {
         mapController.animateTo(currentPosition);
-
     }
 
 

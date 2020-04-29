@@ -45,6 +45,7 @@ public class ProfileHistoryFragment extends Fragment {
         ((ListView)rootView.findViewById(R.id.history_profile_list)).setAdapter(adapter);
 
         ListView lv = rootView.findViewById(R.id.history_profile_list);
+        lv.setDividerHeight(lv.getHeight()*posts.size());
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

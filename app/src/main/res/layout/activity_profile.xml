@@ -35,7 +35,7 @@
 
             <FrameLayout
                 android:id="@+id/frame_profile_history"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
             </FrameLayout>

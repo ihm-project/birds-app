@@ -11,9 +11,10 @@ import android.widget.TextView;
 import com.example.birdsapp.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PostAdapter extends ArrayAdapter<Post> {
-        public PostAdapter(Context context, ArrayList<Post> posts) {
+        public PostAdapter(Context context, List<Post> posts) {
             super(context, 0, posts);
         }
 

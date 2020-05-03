@@ -23,6 +23,7 @@ import androidx.preference.PreferenceManager;
 import com.example.birdsapp.R;
 import com.example.birdsapp.map.IGPSActivity;
 import com.example.birdsapp.models.Post;
+import com.example.birdsapp.post.activity.NewPostActivity;
 import com.example.birdsapp.post.activity.PostActivity;
 import com.example.birdsapp.profile.activity.ProfileModificator;
 
@@ -67,7 +68,7 @@ public class MapFragment extends Fragment implements IGPSActivity {
         rootView.findViewById(R.id.btnAddPost).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentPostActivity = new Intent(getActivity().getApplicationContext(), PostActivity.class);
+                Intent intentPostActivity = new Intent(getActivity().getApplicationContext(), NewPostActivity.class);
                 startActivity(intentPostActivity);
             }
         });

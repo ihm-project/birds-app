@@ -18,9 +18,9 @@ public class PostList {
         posts = new ArrayList<>();
         posts.add(new Post(Species.MESANGE,new Profile(),new Date(),new GeoPoint(0.1,0),"post test",R.mipmap.mesange));
         posts.add(new Post(Species.MESANGE,new Profile(),new Date(),new GeoPoint(0.1,0),"post test",R.mipmap.mesange));
-        posts.add(new Post(Species.MESANGE,new Profile(),new Date(),new GeoPoint(0.1,0),"post test",R.mipmap.mesange));
-        posts.add(new Post(Species.MESANGE,new Profile(),new Date(),new GeoPoint(0.1,0),"post test",R.mipmap.mesange));
-       posts.add((new Post()));
+        posts.add(new Post(Species.MESANGE,new Profile(),new Date(),new GeoPoint(43.6265601,7.0996152),"rue de la caroute",R.mipmap.mesange));
+        posts.add(new Post(Species.MESANGE,new Profile(),new Date(),new GeoPoint(43.6174848,7.1041023999999985),"post test",R.mipmap.mesange));
+        posts.add((new Post()));
     }
 
     public static List<Post> getPosts() {

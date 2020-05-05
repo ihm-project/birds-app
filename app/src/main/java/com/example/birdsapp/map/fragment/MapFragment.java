@@ -13,19 +13,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
 import com.example.birdsapp.R;
+import com.example.birdsapp.data.PostList;
 import com.example.birdsapp.map.IGPSActivity;
 import com.example.birdsapp.models.Post;
 import com.example.birdsapp.post.activity.NewPostActivity;
 import com.example.birdsapp.post.activity.PostActivity;
 import com.example.birdsapp.profile.activity.ProfileModificator;
+
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -33,10 +33,16 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
-import org.osmdroid.views.overlay.compass.CompassOverlay;
-import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
+
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.*;
+import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MapFragment extends Fragment implements IGPSActivity {
@@ -63,7 +69,7 @@ public class MapFragment extends Fragment implements IGPSActivity {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView=inflater.inflate(R.layout.fragment_map,container,false);
         this.map=initMap(rootView);
-
+        this.initPosts(PostList.getPosts());
         boolean permissionGranted1  = ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED;
         rootView.findViewById(R.id.btnAddPost).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +97,7 @@ public class MapFragment extends Fragment implements IGPSActivity {
             
             LocationListener listener = initListener();
             locationManager = (LocationManager) (getActivity().getSystemService(Context.LOCATION_SERVICE));
-            locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 5000, 1, listener);
+            locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 5000, 100, listener);
 
         }
         else {
@@ -130,6 +136,8 @@ public class MapFragment extends Fragment implements IGPSActivity {
         return map;
     }
 
+
+
     LocationListener initListener(){
         LocationListener listener= new LocationListener() {
             @Override
@@ -163,6 +171,37 @@ public class MapFragment extends Fragment implements IGPSActivity {
     public void moveCamera() {
         mapController.animateTo(currentPosition);
     }
+
+    public void initPosts(List<Post> posts) {
+        final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+        SimpleDateFormat formater = new SimpleDateFormat("'le' dd MMMM yyyy 'à' hh:mm:ss");
+        for (Post post: posts) {
+            items.add(new OverlayItem(post.getSpecy().toString(),formater.format(post.getDate()), new GeoPoint(post.getGeoPoint().getLatitude(),post.getGeoPoint().getLongitude()))); // Lat/Lon decimal degrees
+        }
+
+        ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(getContext(),items,
+                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                    OverlayItem itemClicked;
+
+                    @Override
+                    public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+                        if(item.equals(itemClicked)){
+                            Intent intentPost = new Intent(getContext(), PostActivity.class);
+                            startActivity(intentPost);
+                        }
+                        itemClicked = item;
+                        return true;
+                    }
+                    @Override
+                    public boolean onItemLongPress(final int index, final OverlayItem item) {
+                        return false;
+                    }
+                 
+                });
+        mOverlay.setFocusItemsOnTap(true);
+        map.getOverlays().add(mOverlay);
+    }
+
 
 
 

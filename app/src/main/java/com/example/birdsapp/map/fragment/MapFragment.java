@@ -1,9 +1,11 @@
 package com.example.birdsapp.map.fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -11,26 +13,36 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
 import com.example.birdsapp.R;
+import com.example.birdsapp.data.PostList;
 import com.example.birdsapp.map.IGPSActivity;
 import com.example.birdsapp.models.Post;
+import com.example.birdsapp.post.activity.NewPostActivity;
 import com.example.birdsapp.post.activity.PostActivity;
 import com.example.birdsapp.profile.activity.ProfileModificator;
+
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay2;
+
+
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.*;
+import org.osmdroid.views.overlay.OverlayItem;
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MapFragment extends Fragment implements IGPSActivity {
@@ -39,6 +51,8 @@ public class MapFragment extends Fragment implements IGPSActivity {
     private MapView map;
     private Location currentLocation;
     private GeoPoint currentPosition;
+    private LocationManager locationManager;
+    private MyLocationNewOverlay mLocationOverlay;
 
     public MapFragment(){
 
@@ -55,27 +69,35 @@ public class MapFragment extends Fragment implements IGPSActivity {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView=inflater.inflate(R.layout.fragment_map,container,false);
         this.map=initMap(rootView);
-        boolean permissionGranted2  = ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION)== PackageManager.PERMISSION_GRANTED;
-        boolean permissionGranted1  = ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS)== PackageManager.PERMISSION_GRANTED;
+        this.initPosts(PostList.getPosts());
+        boolean permissionGranted1  = ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED;
         rootView.findViewById(R.id.btnAddPost).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentPostActivity = new Intent(getActivity().getApplicationContext(), PostActivity.class);
+                Intent intentPostActivity = new Intent(getActivity().getApplicationContext(), NewPostActivity.class);
                 startActivity(intentPostActivity);
             }
         });
-        if(permissionGranted1&&permissionGranted2){
+        if(permissionGranted1){
             rootView.findViewById(R.id.positionButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                    moveCamera();
-
                 }
             });
 
+
+            this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(getContext()),map);
+            this.mLocationOverlay.enableMyLocation();
+            this.mLocationOverlay.enableFollowLocation();
+
+            map.getOverlays().add(this.mLocationOverlay);
+            currentPosition=mLocationOverlay.getMyLocation();
+
+            
             LocationListener listener = initListener();
-            LocationManager locationManager = (LocationManager) (getActivity().getSystemService(Context.LOCATION_SERVICE));
-            locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 5000, 1, listener);
+            locationManager = (LocationManager) (getActivity().getSystemService(Context.LOCATION_SERVICE));
+            locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 5000, 100, listener);
 
         }
         else {
@@ -107,14 +129,14 @@ public class MapFragment extends Fragment implements IGPSActivity {
         map= rootView.findViewById(R.id.display_map);
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setBuiltInZoomControls(true);
-
-        currentPosition = new GeoPoint(43.61592102050781,7.072372913360596);
+        map.setMultiTouchControls(true);
         mapController = map.getController();
         mapController.setZoom(18.0);
-        mapController.setCenter(currentPosition);
 
         return map;
     }
+
+
 
     LocationListener initListener(){
         LocationListener listener= new LocationListener() {
@@ -122,7 +144,7 @@ public class MapFragment extends Fragment implements IGPSActivity {
             public void onLocationChanged(Location location) {
                 currentLocation=location;
                 currentPosition = new GeoPoint(currentLocation);
-
+                moveCamera();
 
 
             }
@@ -148,6 +170,37 @@ public class MapFragment extends Fragment implements IGPSActivity {
     @Override
     public void moveCamera() {
         mapController.animateTo(currentPosition);
+    }
+
+    public void initPosts(final List<Post> posts) {
+        final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+        SimpleDateFormat formater = new SimpleDateFormat("'le' dd MMMM yyyy 'à' hh:mm:ss");
+        for (Post post: posts) {
+            items.add(new OverlayItem(post.getSpecy().toString(),formater.format(post.getDate()), new GeoPoint(post.getGeoPoint().getLatitude(),post.getGeoPoint().getLongitude()))); // Lat/Lon decimal degrees
+        }
+
+        ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(getContext(),items,
+                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                    OverlayItem itemClicked;
+
+                    @Override
+                    public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+                        if(item.equals(itemClicked)){
+                            Intent intentPost = new Intent(getContext(), PostActivity.class);
+                            intentPost.putExtra("POST",posts.get(index));
+                            startActivity(intentPost);
+                        }
+                        itemClicked = item;
+                        return true;
+                    }
+                    @Override
+                    public boolean onItemLongPress(final int index, final OverlayItem item) {
+                        return false;
+                    }
+
+                });
+        mOverlay.setFocusItemsOnTap(true);
+        map.getOverlays().add(mOverlay);
     }
 
 

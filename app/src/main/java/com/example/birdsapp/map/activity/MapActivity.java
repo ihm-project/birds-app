@@ -1,5 +1,6 @@
 package com.example.birdsapp.map.activity;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import com.example.birdsapp.data.PostList;
 import com.example.birdsapp.map.fragment.MapFragment;
 import com.example.birdsapp.map.fragment.MapManagerFragment;
 import com.example.birdsapp.navigationBar.NavigationBar;
+import com.example.birdsapp.post.activity.PostActivity;
 
 import static com.example.birdsapp.map.IGPSActivity.REQUEST_CODE;
 
@@ -39,7 +41,8 @@ public class MapActivity extends AppCompatActivity {
                 if(grantedResults.length>0 && grantedResults[0]== PackageManager.PERMISSION_GRANTED){
                     Toast toast = Toast.makeText(getApplicationContext(),"location activated",Toast.LENGTH_LONG);
                     toast.show();
-
+                    Intent intentReload = new Intent(getApplicationContext(), MapActivity.class);
+                    startActivity(intentReload);
                 }
                 break;
             }

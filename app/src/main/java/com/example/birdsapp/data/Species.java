@@ -1,6 +1,6 @@
 package com.example.birdsapp.data;
 
-public enum Species {
+public enum Species{
     PIGEON("Pigeon"), TOURTERELLE("Tourterelle"), MOINEAU("Moineau"), MESANGE("Mesange");
 
     private String name;

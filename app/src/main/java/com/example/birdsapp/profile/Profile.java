@@ -6,13 +6,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.example.birdsapp.R;
 import com.google.gson.Gson;
 
 import java.io.*;
 
-public class Profile {
+public class Profile implements Parcelable {
     public static final String SAVE_LINK = "ownerProfile";
 
     public final static String KEY = "profile";
@@ -37,6 +39,16 @@ public class Profile {
         descript = "defaultDescription";
         image = "noImg";
     }
+
+    protected Profile(Parcel in) {
+        names = in.readString();
+        title = in.readString();
+        country = in.readString();
+        descript = in.readString();
+        image = in.readString();
+    }
+
+
 
     public String getImage() {
         return image;
@@ -126,4 +138,29 @@ public class Profile {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(names);
+        parcel.writeString(title);
+        parcel.writeString(country);
+        parcel.writeString(descript);
+        parcel.writeString(image);
+    }
+    public static final Creator<Profile> CREATOR = new Creator<Profile>() {
+        @Override
+        public Profile createFromParcel(Parcel in) {
+            return new Profile(in);
+        }
+
+        @Override
+        public Profile[] newArray(int size) {
+            return new Profile[size];
+        }
+    };
 }

@@ -172,7 +172,7 @@ public class MapFragment extends Fragment implements IGPSActivity {
         mapController.animateTo(currentPosition);
     }
 
-    public void initPosts(List<Post> posts) {
+    public void initPosts(final List<Post> posts) {
         final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
         SimpleDateFormat formater = new SimpleDateFormat("'le' dd MMMM yyyy 'à' hh:mm:ss");
         for (Post post: posts) {
@@ -187,6 +187,7 @@ public class MapFragment extends Fragment implements IGPSActivity {
                     public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
                         if(item.equals(itemClicked)){
                             Intent intentPost = new Intent(getContext(), PostActivity.class);
+                            intentPost.putExtra("POST",posts.get(index));
                             startActivity(intentPost);
                         }
                         itemClicked = item;
@@ -196,7 +197,7 @@ public class MapFragment extends Fragment implements IGPSActivity {
                     public boolean onItemLongPress(final int index, final OverlayItem item) {
                         return false;
                     }
-                 
+
                 });
         mOverlay.setFocusItemsOnTap(true);
         map.getOverlays().add(mOverlay);

@@ -1,5 +1,10 @@
 package com.example.birdsapp.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import com.example.birdsapp.R;
 import com.example.birdsapp.data.Species;
 import com.example.birdsapp.profile.Profile;
@@ -8,7 +13,7 @@ import org.osmdroid.util.GeoPoint;
 
 import java.util.Date;
 
-public class Post {
+public class Post implements Parcelable {
 
     Species specy;
     Profile profile;
@@ -48,6 +53,28 @@ public class Post {
 
     }
 
+    protected Post(Parcel in) {
+        specy = Species.valueOf(in.readString());
+        profile = in.readParcelable(Profile.class.getClassLoader());
+        date= new Date(in.readLong());
+        geoPoint = in.readParcelable(GeoPoint.class.getClassLoader());
+        description = in.readString();
+        like = in.readInt();
+        photo = in.readInt();
+    }
+
+    public static final Creator<Post> CREATOR = new Creator<Post>() {
+        @Override
+        public Post createFromParcel(Parcel in) {
+            return new Post(in);
+        }
+
+        @Override
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+    };
+
     public Date getDate() {
         return date;
     }
@@ -75,6 +102,23 @@ public class Post {
     public int getPhoto() {
         return photo;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(specy.name());
+        parcel.writeParcelable(profile,i);
+        parcel.writeLong(date.getTime());
+        parcel.writeParcelable(geoPoint,i);
+        parcel.writeString(description);
+        parcel.writeInt(like);
+        parcel.writeInt(photo);
+    }
+
 
 }
 

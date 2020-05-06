@@ -1,5 +1,6 @@
 package com.example.birdsapp.map.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.example.birdsapp.data.BirdsList;
 import com.example.birdsapp.data.PostList;
 import com.example.birdsapp.models.Post;
 import com.example.birdsapp.models.PostAdapter;
+import com.example.birdsapp.post.activity.PostActivity;
 
 import org.osmdroid.config.Configuration;
 
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 
 public class ListPostFragment extends Fragment {
 
+        ArrayList<Post> posts;
 
         public ListPostFragment(){
 
@@ -38,8 +41,9 @@ public class ListPostFragment extends Fragment {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+            posts = new ArrayList<>(PostList.getPosts());
             View rootView=inflater.inflate(R.layout.fragment_list_post,container,false);
-            PostAdapter adapter = new PostAdapter(getContext(), (ArrayList<Post>) PostList.getPosts());
+            PostAdapter adapter = new PostAdapter(getContext(), (ArrayList<Post>) posts);
             ((ListView)rootView.findViewById(R.id.listPost)).setAdapter(adapter);
 
             ListView lv = rootView.findViewById(R.id.listPost);
@@ -47,8 +51,9 @@ public class ListPostFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Log.d("ListPost",String.valueOf(PostList.getPosts().get(position).getPhoto()));
-
-
+                    Intent intentPost = new Intent(getContext(), PostActivity.class);
+                    intentPost.putExtra("POST",posts.get(position));
+                    startActivity(intentPost);
                 }
             });
             return rootView;

@@ -119,7 +119,17 @@ public class Post implements Parcelable {
         parcel.writeInt(photo);
     }
 
-
+    @NonNull
+    @Override
+    public String toString() {
+        return "Specy :"+specy.toString()+",\n"+
+                "Profile :"+profile+",\n"+
+                "Date :"+date.toString()+",\n"+
+                "GeoPoint :"+geoPoint.toString()+",\n"
+                +"Likes :"+like+"\n,"
+                +"description :"+description+",\n"+
+                "photo :"+photo;
+    }
 }
 
 

@@ -9,6 +9,8 @@ import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import com.example.birdsapp.R;
 import com.google.gson.Gson;
 
@@ -163,4 +165,10 @@ public class Profile implements Parcelable {
             return new Profile[size];
         }
     };
+
+    @NonNull
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

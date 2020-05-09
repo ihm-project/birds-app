@@ -26,7 +26,8 @@ public class MapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_map);
 
         BirdsList.initBirdsList();
-        PostList.initPostList();
+        if(PostList.getPosts()==null){
+            PostList.initPostList();}
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction(). replace(R.id.frame_map, new MapFragment()) .commit();
             getSupportFragmentManager().beginTransaction(). replace(R.id.frame_manager_map, new MapManagerFragment()) .commit();

@@ -1,5 +1,7 @@
 package com.example.birdsapp.data;
 
+import android.util.Log;
+
 import com.example.birdsapp.R;
 import com.example.birdsapp.models.Post;
 import com.example.birdsapp.profile.Profile;
@@ -25,6 +27,11 @@ public class PostList {
 
     public static List<Post> getPosts() {
         return posts;
+    }
+
+    public static void addPost(Post e){
+        posts.add(e);
+        Log.d("ADDPOST", "addPost: "+e.toString());
     }
 
 }

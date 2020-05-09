@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -28,6 +30,7 @@ import com.example.birdsapp.map.activity.MapActivity;
 import com.example.birdsapp.models.Post;
 import com.example.birdsapp.post.PostListTool;
 import com.example.birdsapp.profile.Profile;
+import com.example.birdsapp.tools.NotificationTool;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
@@ -84,6 +87,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View button) {
         Spinner spinner = (Spinner)findViewById(R.id.species_dropdown);
@@ -97,6 +101,10 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 Log.d("POST", "onClick: " + post.toString());
                 PostListTool.addPost(post, getSharedPreferences(PostListTool.KEY, Context.MODE_PRIVATE));
                 PostList.addPost(post);
+
+                NotificationTool notif = new NotificationTool(this);
+                notif.notify(1,true, "NOUVEAU", species.toString(),BirdsList.findMipmap(species));
+
                 Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                 startActivity(intent);
             }

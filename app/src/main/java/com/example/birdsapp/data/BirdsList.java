@@ -20,4 +20,10 @@ public class BirdsList {
     public static List<Bird> getBirds() {
         return birds;
     }
+
+    public static int findMipmap(Species species){
+        if(birds==null) initBirdsList();
+        for (Bird bird : birds) if (bird.getSpecies().equals(species)) return bird.getPicture();
+        return 0;
+    }
 }

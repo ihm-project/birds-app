@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.birdsapp.R;
+import com.example.birdsapp.data.BirdsList;
 import com.example.birdsapp.data.PostList;
 import com.example.birdsapp.data.Species;
 import com.example.birdsapp.map.activity.MapActivity;
@@ -92,10 +93,9 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         Date date = new Date();
         if (button.getId() == R.id.save_post_button) {
             if(currentPosition!=null) {
-                Post post = new Post(species, this.profile, date, new GeoPoint(currentPosition.getLatitude(), currentPosition.getLongitude()), description, 0);
+                Post post = new Post(species, this.profile, date, new GeoPoint(currentPosition.getLatitude(), currentPosition.getLongitude()), description, BirdsList.findMipmap(species));
                 Log.d("POST", "onClick: " + post.toString());
-                //postTool.addPost(post, getSharedPreferences(PostListTool.KEY, Context.MODE_PRIVATE));
-                //postTool.save(posts, getSharedPreferences(PostListTool.KEY, Context.MODE_PRIVATE));
+                PostListTool.addPost(post, getSharedPreferences(PostListTool.KEY, Context.MODE_PRIVATE));
                 PostList.addPost(post);
                 Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                 startActivity(intent);

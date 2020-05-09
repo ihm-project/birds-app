@@ -36,9 +36,9 @@ public class ProfileHistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView=inflater.inflate(R.layout.fragment_profile_history,container,false);
-//        posts = PostListTool.load(getActivity().getSharedPreferences(PostListTool.KEY, Context.MODE_PRIVATE));
-        PostList.initPostList();
-        posts = PostList.getPosts();
+        posts = PostListTool.load(getActivity().getSharedPreferences(PostListTool.KEY, Context.MODE_PRIVATE));
+//        PostList.initPostList();
+//        posts = PostList.getPosts();
         System.out.println(Arrays.toString(posts.toArray()));
 
         PostAdapter adapter = new PostAdapter(getContext(), posts);

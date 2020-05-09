@@ -14,6 +14,7 @@ public class PostListTool {
     public final static String KEY = "postsList";
 
     public static List<Post> load(SharedPreferences mPrefs){
+        if(!mPrefs.contains(KEY)) return new LinkedList<>();
         Gson gson = new Gson();
         String json = mPrefs.getString(KEY, "");
         List<Post> saved = new LinkedList<>(Arrays.asList(gson.fromJson(json, Post[].class)));
@@ -24,6 +25,7 @@ public class PostListTool {
         Gson gson = new Gson();
         String json = mPrefs.getString(KEY, "");
         List<Post> saved = new LinkedList<>(Arrays.asList(gson.fromJson(json, Post[].class)));
+        //TODO find ways to separated owner and other posts
         return saved;
     }
 

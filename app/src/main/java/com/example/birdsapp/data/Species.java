@@ -4,7 +4,7 @@ public enum Species {
     PIGEON("Pigeon", "https://fr.wikipedia.org/wiki/Columba_(oiseau)"),
     TOURTERELLE("Tourterelle", "https://fr.wikipedia.org/wiki/Tourterelle"),
     MOINEAU("Moineau", "https://fr.wikipedia.org/wiki/Moineau"),
-    MESANGE("Mesange");
+    MESANGE("Mesange", "https://fr.wikipedia.org/wiki/M%C3%A9sange");
 
     private String name;
     private String url;

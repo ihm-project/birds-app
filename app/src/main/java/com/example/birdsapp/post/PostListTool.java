@@ -59,6 +59,13 @@ public class PostListTool {
         save(posts, mPrefs);
     }
 
+    public static void delPost(Post post, Activity activity){
+        SharedPreferences mPrefs = activity.getSharedPreferences(KEY, Context.MODE_PRIVATE);
+        List<Post> posts = load(mPrefs);
+        posts.remove(post);
+        save(posts, mPrefs);
+    }
+
     private static void initPosts(SharedPreferences mPrefs){
         List<Post> posts = new LinkedList<>();
         posts.add(new Post(Species.MESANGE,new Profile("other 1"),new Date(),new GeoPoint(0.1,0),"post test", R.mipmap.mesange));

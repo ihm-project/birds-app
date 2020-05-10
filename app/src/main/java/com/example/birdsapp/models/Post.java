@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.birdsapp.R;
 import com.example.birdsapp.data.Species;
@@ -129,6 +130,20 @@ public class Post implements Parcelable {
                 +"Likes :"+like+"\n,"
                 +"description :"+description+",\n"+
                 "photo :"+photo;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == null) return false;
+        if(!(obj instanceof Post)) return false;
+        Post post = (Post) obj;
+        return specy.equals(post.specy) &&
+                profile.equals(post.profile) &&
+                date.equals(post.date) &&
+                geoPoint.equals(post.geoPoint) &&
+                like == (post.like) &&
+                description.equals(post.description) &&
+                photo == (post.photo);
     }
 }
 

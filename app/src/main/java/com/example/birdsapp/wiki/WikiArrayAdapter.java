@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.birdsapp.R;
-import com.example.birdsapp.data.Bird;
+import com.example.birdsapp.models.Bird;
 
 import java.util.List;
 

@@ -1,4 +1,6 @@
-package com.example.birdsapp.data;
+package com.example.birdsapp.models;
+
+import com.example.birdsapp.data.Species;
 
 public class Bird {
 
@@ -16,5 +18,9 @@ public class Bird {
 
     public Species getSpecies() {
         return species;
+    }
+
+    public String getUrl() {
+        return species.getUrl();
     }
 }

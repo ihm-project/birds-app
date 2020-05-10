@@ -11,10 +11,9 @@ public class BirdsList {
 
     public static void initBirdsList() {
         birds = new ArrayList<>();
-        birds.add(new Bird(R.mipmap.mesange, Species.MESANGE));
-        birds.add(new Bird(R.mipmap.moineau, Species.MOINEAU));
-        birds.add(new Bird(R.mipmap.pigeon, Species.PIGEON));
-        birds.add(new Bird(R.mipmap.tourterelle, Species.TOURTERELLE));
+        for (Species s : Species.values()){
+            birds.add(new Bird(s.img, s));
+        }
     }
 
     public static List<Bird> getBirds() {

@@ -1,11 +1,9 @@
 package com.example.birdsapp.map.fragment;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -19,12 +17,11 @@ import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
 import com.example.birdsapp.R;
-import com.example.birdsapp.data.PostList;
 import com.example.birdsapp.map.IGPSActivity;
 import com.example.birdsapp.models.Post;
+import com.example.birdsapp.post.PostListTool;
 import com.example.birdsapp.post.activity.NewPostActivity;
 import com.example.birdsapp.post.activity.PostActivity;
-import com.example.birdsapp.profile.activity.ProfileModificator;
 
 
 import org.osmdroid.api.IMapController;
@@ -69,7 +66,7 @@ public class MapFragment extends Fragment implements IGPSActivity {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView=inflater.inflate(R.layout.fragment_map,container,false);
         this.map=initMap(rootView);
-        this.initPosts(PostList.getPosts());
+        this.initPosts(PostListTool.load(getActivity().getSharedPreferences(PostListTool.KEY, Context.MODE_PRIVATE)));
         boolean permissionGranted1  = ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED;
         rootView.findViewById(R.id.btnAddPost).setOnClickListener(new View.OnClickListener() {
             @Override

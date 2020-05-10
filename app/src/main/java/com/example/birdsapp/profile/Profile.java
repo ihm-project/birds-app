@@ -10,6 +10,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.birdsapp.R;
 import com.google.gson.Gson;
@@ -40,6 +41,11 @@ public class Profile implements Parcelable {
         country = "defaultCountry";
         descript = "defaultDescription";
         image = "noImg";
+    }
+
+    public Profile(String name){
+        this();
+        names = name;
     }
 
     protected Profile(Parcel in) {
@@ -170,5 +176,17 @@ public class Profile implements Parcelable {
     @Override
     public String toString() {
         return super.toString();
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (obj == null) return false;
+        if(!(obj instanceof Profile)) return false;
+        Profile profile = (Profile) obj;
+        return names.equals(profile.names) &&
+                title.equals(profile.title) &&
+                country.equals(profile.country) &&
+                descript.equals(profile.descript) &&
+                image.equals(profile.image);
     }
 }

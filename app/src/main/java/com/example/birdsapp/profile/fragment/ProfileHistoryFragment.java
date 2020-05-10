@@ -2,7 +2,6 @@ package com.example.birdsapp.profile.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.ArraySet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,18 +9,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.birdsapp.R;
-import com.example.birdsapp.data.PostList;
 import com.example.birdsapp.models.Post;
 import com.example.birdsapp.models.PostAdapter;
 import com.example.birdsapp.post.PostListTool;
-import com.example.birdsapp.profile.Profile;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,7 +31,7 @@ public class ProfileHistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView=inflater.inflate(R.layout.fragment_profile_history,container,false);
-        posts = PostListTool.load(getActivity().getSharedPreferences(PostListTool.KEY, Context.MODE_PRIVATE));
+        posts = PostListTool.loadOwnerList(getActivity());
 //        PostList.initPostList();
 //        posts = PostList.getPosts();
         System.out.println(Arrays.toString(posts.toArray()));

@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.birdsapp.R;
 import com.example.birdsapp.data.BirdsList;
-import com.example.birdsapp.data.PostList;
 import com.example.birdsapp.map.fragment.MapFragment;
 import com.example.birdsapp.map.fragment.MapManagerFragment;
 import com.example.birdsapp.navigationBar.NavigationBar;
@@ -26,8 +25,6 @@ public class MapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_map);
 
         BirdsList.initBirdsList();
-        if(PostList.getPosts()==null){
-            PostList.initPostList();}
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction(). replace(R.id.frame_map, new MapFragment()) .commit();
             getSupportFragmentManager().beginTransaction(). replace(R.id.frame_manager_map, new MapManagerFragment()) .commit();

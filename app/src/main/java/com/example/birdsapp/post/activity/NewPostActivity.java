@@ -24,7 +24,6 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.birdsapp.R;
 import com.example.birdsapp.data.BirdsList;
-import com.example.birdsapp.data.PostList;
 import com.example.birdsapp.data.Species;
 import com.example.birdsapp.map.activity.MapActivity;
 import com.example.birdsapp.models.Post;
@@ -33,7 +32,6 @@ import com.example.birdsapp.profile.Profile;
 import com.example.birdsapp.tools.NotificationTool;
 
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.Date;
@@ -100,7 +98,6 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 Post post = new Post(species, this.profile, date, new GeoPoint(currentPosition.getLatitude(), currentPosition.getLongitude()), description, BirdsList.findMipmap(species));
                 Log.d("POST", "onClick: " + post.toString());
                 PostListTool.addPost(post, getSharedPreferences(PostListTool.KEY, Context.MODE_PRIVATE));
-                PostList.addPost(post);
 
                 NotificationTool notif = new NotificationTool(this);
                 notif.notify(1,true, "NOUVEAU", species.toString(),BirdsList.findMipmap(species));

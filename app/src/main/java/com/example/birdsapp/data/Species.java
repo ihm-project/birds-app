@@ -1,12 +1,19 @@
 package com.example.birdsapp.data;
 
+import com.example.birdsapp.R;
+
 public enum Species{
-    PIGEON("Pigeon"), TOURTERELLE("Tourterelle"), MOINEAU("Moineau"), MESANGE("Mesange");
+    PIGEON("Pigeon", R.mipmap.pigeon),
+    TOURTERELLE("Tourterelle", R.mipmap.tourterelle),
+    MOINEAU("Moineau", R.mipmap.moineau),
+    MESANGE("Mesange", R.mipmap.mesange);
 
-    private String name;
+    public String name;
+    public int img;
 
-    Species(String name) {
+    Species(String name, int img) {
         this.name = name;
+        this.img = img;
     }
 
     @Override

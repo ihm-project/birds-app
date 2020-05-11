@@ -34,6 +34,7 @@ import com.example.birdsapp.tools.NotificationTool;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -92,7 +93,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         DatePicker datePicker = (DatePicker)findViewById(R.id.datePicker1);
         Species species = (Species)spinner.getSelectedItem();
         String description = ((EditText)findViewById(R.id.description_textInput)).getText().toString();
-        Date date = new Date();
+        Date date = getDateFromDatePicker(datePicker);
         if (button.getId() == R.id.save_post_button) {
             if(currentPosition!=null) {
                 Post post = new Post(species, this.profile, date, new GeoPoint(currentPosition.getLatitude(), currentPosition.getLongitude()), description, BirdsList.findMipmap(species));
@@ -110,6 +111,17 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
 
+    }
+
+    public static Date getDateFromDatePicker(DatePicker datePicker){
+        int day = datePicker.getDayOfMonth();
+        int month = datePicker.getMonth();
+        int year =  datePicker.getYear();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+
+        return calendar.getTime();
     }
 
     LocationListener initListener(){

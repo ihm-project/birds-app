@@ -23,6 +23,8 @@ import com.example.birdsapp.profile.activity.ProfileModificator;
 
 import androidx.fragment.app.Fragment;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 
 public class PostFragment extends Fragment {
@@ -35,6 +37,9 @@ public class PostFragment extends Fragment {
     ImageView image;
     ImageButton backBtn;
     ImageButton deleteBtn;
+    ImageButton buttonLike;
+    TextView nbLike;
+    boolean isLiked=false;
 
     public PostFragment(){}
     @Override
@@ -47,7 +52,22 @@ public class PostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rV= inflater.inflate(R.layout.activity_post,container,false);
         backBtn = rV.findViewById(R.id.buttonBack);
+        nbLike = rV.findViewById(R.id.nbLikes);
         deleteBtn = rV.findViewById(R.id.buttonDelete);
+        buttonLike = rV.findViewById(R.id.buttonLike);
+        buttonLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isLiked){
+                    nbLike.setText("0");
+                }
+                else{
+                    nbLike.setText("1");
+                }
+                isLiked=!isLiked;
+
+            }
+        });
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

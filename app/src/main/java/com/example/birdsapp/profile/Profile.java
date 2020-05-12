@@ -37,7 +37,7 @@ public class Profile implements Parcelable {
 
     public Profile(){
         names = "defaultName";
-        title = "defaultTitle";
+        title = "Member";
         country = "defaultCountry";
         descript = "defaultDescription";
         image = "noImg";

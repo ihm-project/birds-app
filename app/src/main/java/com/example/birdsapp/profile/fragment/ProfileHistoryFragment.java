@@ -1,6 +1,7 @@
 package com.example.birdsapp.profile.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.example.birdsapp.R;
 import com.example.birdsapp.models.Post;
 import com.example.birdsapp.models.PostAdapter;
 import com.example.birdsapp.post.PostListTool;
+import com.example.birdsapp.post.activity.PostActivity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,9 +46,14 @@ public class ProfileHistoryFragment extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("ListPost",String.valueOf(posts.get(position).getPhoto()));
+                Intent intentPost = new Intent(getContext(), PostActivity.class);
+                intentPost.putExtra("POST",posts.get(position));
+                intentPost.putExtra("lastActivity","Profile");
+                startActivity(intentPost);
             }
         });
+
+
         return rootView;
     }
 }

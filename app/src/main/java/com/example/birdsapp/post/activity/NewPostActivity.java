@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -22,6 +23,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.birdsapp.BuildConfig;
 import com.example.birdsapp.R;
 import com.example.birdsapp.data.BirdsList;
 import com.example.birdsapp.data.Species;
@@ -29,6 +31,7 @@ import com.example.birdsapp.map.activity.MapActivity;
 import com.example.birdsapp.models.Post;
 import com.example.birdsapp.post.PostListTool;
 import com.example.birdsapp.profile.Profile;
+import com.example.birdsapp.profile.activity.ProfileModificator;
 import com.example.birdsapp.tools.NotificationTool;
 
 import org.osmdroid.util.GeoPoint;
@@ -41,20 +44,26 @@ import java.util.List;
 import static com.example.birdsapp.map.IGPSActivity.REQUEST_CODE;
 
 public class NewPostActivity extends AppCompatActivity implements View.OnClickListener {
-    PostListTool postTool = new PostListTool();
-    List<Post> posts;
     Profile profile;
     GeoPoint currentPosition;
     boolean permissionGranted1;
     private LocationManager locationManager;
     private MyLocationNewOverlay mLocationOverlay;
     private TextView textViewPosition;
-
+    private Button cancelBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_post);
         textViewPosition=findViewById(R.id.locationAddPost);
+        cancelBtn=findViewById(R.id.cancel_post_button);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentMap = new Intent(getApplicationContext(), MapActivity.class);
+                startActivity(intentMap);
+            }
+        });
         permissionGranted1  = ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED;
 
         Spinner spinner = (Spinner) findViewById(R.id.species_dropdown);
@@ -100,8 +109,8 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 Log.d("POST", "onClick: " + post.toString());
                 PostListTool.addPost(post, getSharedPreferences(PostListTool.KEY, Context.MODE_PRIVATE));
 
-                NotificationTool notif = new NotificationTool(this);
-                notif.notify(1,true, "NOUVEAU", species.toString(),BirdsList.findMipmap(species));
+                    NotificationTool notif = new NotificationTool(this);
+                    notif.notify(1, true, "NOUVEAU", species.toString(), BirdsList.findMipmap(species));
 
                 Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                 startActivity(intent);
@@ -110,6 +119,7 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
                 ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},REQUEST_CODE);
             }
         }
+
 
     }
 

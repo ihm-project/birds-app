@@ -52,6 +52,7 @@ public class ListPostFragment extends Fragment {
                     Log.d("ListPost",String.valueOf(PostListTool.load(getActivity().getSharedPreferences(PostListTool.KEY, Context.MODE_PRIVATE)).get(position).getPhoto()));
                     Intent intentPost = new Intent(getContext(), PostActivity.class);
                     intentPost.putExtra("POST",posts.get(position));
+                    intentPost.putExtra("lastActivity","Map");
                     startActivity(intentPost);
                 }
             });
